@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BUY MY GOODS</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>BUY MY GOODS</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="home-appliances.html">Home Appliances</a>
+      <a href="garments.html">Readymade Garments</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Welcome to BUY MY GOODS</h2>
+    <p>Select a category to browse our products.</p>
+  </main>
+
+  <footer>
+    <p>© 2025 BUY MY GOODS | <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Appliances - BUY MY GOODS</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>BUY MY GOODS</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="home-appliances.html">Home Appliances</a>
+      <a href="garments.html">Readymade Garments</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Home Appliances</h2>
+    <div id="product-list" class="product-list"></div>
+  </main>
+
+  <footer>
+    <p>© 2025 BUY MY GOODS | <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Readymade Garments - BUY MY GOODS</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <h1>BUY MY GOODS</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="home-appliances.html">Home Appliances</a>
+      <a href="garments.html">Readymade Garments</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Readymade Garments</h2>
+    <div id="product-list" class="product-list"></div>
+  </main>
+
+  <footer>
+    <p>© 2025 BUY MY GOODS | <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
+/* styles.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f8f8;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.product-item {
+  background-color: white;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-item img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.product-item h3 {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+.product-item p {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.product-item .price {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+  margin-top: 40px;
+}
+// main.js
+
+// Sample data from the JSON file (you can fetch this from a server later)
+const productData = {
+  "home-appliances": [
+    { "name": "Microwave Oven", "description": "High power microwave oven.", "price": 150, "image": "images/appliances/microwave.jpg" },
+    { "name": "Electric Kettle", "description": "1.5L electric kettle.", "price": 30, "image": "images/appliances/kettle.jpg" }
+  ],
+  "garments": [
+    { "name": "Cotton T-Shirt", "description": "Comfortable cotton t-shirt.", "price": 15, "image": "images/garments/tshirt.jpg" },
+    { "name": "Jeans", "description": "Slim fit denim jeans.", "price": 40, "image": "images/garments/jeans.jpg" }
+  ]
+};
+
+// Load products based on page
+document.addEventListener('DOMContentLoaded', function () {
+  let page = window.location.pathname.split("/").pop(); // Get current page name
+  let category = page.replace(".html", "").replace("-", "_"); // Convert to key for productData
+
+  if (productData[category]) {
+    let productListDiv = document.getElementById('product-list');
+    productData[category].forEach(product => {
+      let productItem = document.createElement('div');
+      productItem.classList.add('product-item');
+      productItem.innerHTML = `
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <div class="price">$${product.price}</div>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="YOUR_PAYPAL_BUTTON_ID">
+          <input type="submit" value="Buy Now" class="btn">
+        </form>
+      `;
+      productListDiv.appendChild(productItem);
+    });
+  }
+});
+{
+  "home-appliances": [
+    {
+      "name": "Microwave Oven",
+      "description": "High power microwave oven with touch control.",
+      "price": "150",
+      "image": "images/appliances/microwave.jpg"
+    },
+    {
+      "name": "Electric Kettle",
+      "description": "1.5L electric kettle with auto shut-off.",
+      "price": "30",
+      "image": "images/appliances/kettle.jpg"
+    }
+  ],
+  "garments": [
+    {
+      "name": "Cotton T-Shirt",
+      "description": "Comfortable cotton t-shirt for daily wear.",
+      "price": "15",
+      "image": "images/garments/tshirt.jpg"
+    },
+    {
+      "name": "Jeans",
+      "description": "Slim fit denim jeans with stretch.",
+      "price": "40",
+      "image": "images/garments/jeans.jpg"
+    }
+  ]
+}
