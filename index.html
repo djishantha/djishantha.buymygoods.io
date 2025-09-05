@@ -109,6 +109,7 @@
   <header>
     <h1>BUY MY GOODS</h1>
     <nav>
+      <a href="#" onclick="resetView()">Home</a>
       <a href="#" onclick="loadCategory('home-appliances')">Home Appliances</a>
       <a href="#" onclick="loadCategory('garments')">Readymade Garments</a>
     </nav>
@@ -168,7 +169,11 @@
         }
       ]
     };
-
+function resetView() {
+    document.getElementById('category-title').innerText = 'Welcome to BUY MY GOODS';
+    document.getElementById('welcome-msg').style.display = 'block';
+    document.getElementById('product-list').innerHTML = '';
+  }
     function loadCategory(category) {
       const products = productData[category];
       const list = document.getElementById('product-list');
@@ -189,7 +194,7 @@
           <div class="price">$${product.price}</div>
           <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
             <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="YOUR_PAYPAL_djnishantha@yahoo.co.uk">
+            <input type="hidden" name="business" value="YOUR_PAYPAL_djnishantha@proton.me">
             <input type="hidden" name="item_name" value="${product.name}">
             <input type="hidden" name="amount" value="${product.price}">
             <input type="hidden" name="currency_code" value="USD">
