@@ -145,40 +145,40 @@
 
     let cart = [];
 
-    function resetView() {
-      document.getElementById('category-title').innerText = 'Welcome to BUY MY GOODS';
-      document.getElementById('welcome-msg').style.display = 'block';
-      document.getElementById('product-list').innerHTML = '';
-      document.getElementById('back-home').style.display = 'none';
-      document.getElementById('cart-page').style.display = 'none';
-    }
+   function resetView() {
+  document.getElementById('category-title').innerText = 'Welcome to BUY MY GOODS';
+  document.getElementById('product-list').innerHTML = '';
+  document.getElementById('back-home').style.display = 'none';
+  document.getElementById('cart-page').style.display = 'none';
+  document.getElementById('welcome-image').style.display = 'block';
+}
 
-    function loadCategory(category) {
-      const products = productData[category];
-      const list = document.getElementById('product-list');
-      const title = document.getElementById('category-title');
-      const welcome = document.getElementById('welcome-msg');
-      const backButton = document.getElementById('back-home');
+function loadCategory(category) {
+  const products = productData[category];
+  const list = document.getElementById('product-list');
+  const title = document.getElementById('category-title');
+  const backButton = document.getElementById('back-home');
 
-      title.innerText = category === 'home-appliances' ? 'Home Appliances' : 'Readymade Garments';
-      welcome.style.display = 'none';
-      list.innerHTML = '';
-      backButton.style.display = 'block';
-      document.getElementById('cart-page').style.display = 'none';
+  title.innerText = category === 'home-appliances' ? 'Home Appliances' : 'Readymade Garments';
+  list.innerHTML = '';
+  backButton.style.display = 'block';
+  document.getElementById('cart-page').style.display = 'none';
+  document.getElementById('welcome-image').style.display = 'none';
 
-      products.forEach(product => {
-        const item = document.createElement('div');
-        item.className = 'product-item';
-        item.innerHTML = `
-          <img src="${product.image}" alt="Image of ${product.name}" />
-          <h3>${product.name}</h3>
-          <p>${product.description}</p>
-          <div class="price">$${product.price}</div>
-          <button class="btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
-        `;
-        list.appendChild(item);
-      });
-    }
+  products.forEach(product => {
+    const item = document.createElement('div');
+    item.className = 'product-item';
+    item.innerHTML = `
+      <img src="${product.image}" alt="Image of ${product.name}" />
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <div class="price">$${product.price}</div>
+      <button class="btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+    `;
+    list.appendChild(item);
+  });
+}
+
 
     function addToCart(name, price) {
       const existing = cart.find(item => item.name === name);
