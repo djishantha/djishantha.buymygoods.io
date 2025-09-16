@@ -5,12 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>BUY MY GOODS</title>
   <style>
-    /* Embedded CSS */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: Arial, sans-serif;
@@ -31,19 +26,13 @@
       margin: 0 15px;
       text-decoration: none;
     }
+    nav a:hover { text-decoration: underline; }
 
-    nav a:hover {
-      text-decoration: underline;
-    }
+    main { padding: 20px; }
 
-    main {
-      padding: 20px;
-    }
+    h2 { text-align: center; margin-bottom: 20px; }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+    #back-home { text-align: center; margin-bottom: 20px; display: none; }
 
     .product-list {
       display: grid;
@@ -57,30 +46,26 @@
       text-align: center;
       border: 1px solid #ddd;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
     }
+    .product-item:hover { transform: translateY(-5px); }
+    .product-item img { max-width: 100%; height: auto; border-radius: 8px; }
+    .product-item h3 { font-size: 1.2em; margin: 10px 0; }
+    .product-item p { font-size: 0.9em; color: #777; }
+    .product-item .price { font-size: 1.2em; font-weight: bold; margin: 10px 0; }
 
-    .product-item img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
+    .btn {
+      background-color: #0070ba;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: none;
     }
-
-    .product-item h3 {
-      font-size: 1.2em;
-      margin: 10px 0;
-    }
-
-    .product-item p {
-      font-size: 0.9em;
-      color: #777;
-    }
-
-    .product-item .price {
-      font-size: 1.2em;
-      font-weight: bold;
-      margin: 10px 0;
-    }
+    .btn:hover { background-color: #003087; }
 
     footer {
       text-align: center;
@@ -90,18 +75,9 @@
       margin-top: 40px;
     }
 
-    .btn {
-      background-color: #0070ba;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      background-color: #003087;
-    }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    table, th, td { border: 1px solid #ddd; }
+    th, td { padding: 10px; text-align: center; }
   </style>
 </head>
 <body>
@@ -112,97 +88,170 @@
       <a href="#" onclick="resetView()">Home</a>
       <a href="#" onclick="loadCategory('home-appliances')">Home Appliances</a>
       <a href="#" onclick="loadCategory('garments')">Readymade Garments</a>
+      <a href="#" onclick="showCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
     </nav>
   </header>
 
   <main>
     <h2 id="category-title">Welcome to BUY MY GOODS</h2>
     <p id="welcome-msg">Click a category above to browse products.</p>
+
+    <!-- Back to Home Button -->
+    <div id="back-home">
+      <button class="btn" onclick="resetView()">← Back to Home</button>
+    </div>
+
+    <!-- Product Listing -->
     <div id="product-list" class="product-list"></div>
+
+    <!-- Cart Page -->
+    <div id="cart-page" style="display:none;">
+      <h2>Your Cart</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th>Remove</th>
+          </tr>
+        </thead>
+        <tbody id="cart-body"></tbody>
+      </table>
+      <h3 id="cart-total"></h3>
+      <div id="paypal-button-container"></div>
+    </div>
   </main>
 
   <footer>
     <p>© 2025 BUY MY GOODS | All rights reserved</p>
   </footer>
 
+  <!-- Load PayPal SDK -->
+ <script src="https://www.paypal.com/sdk/js?client-id=AXUZYpgdB2oGgzp-3hGfnY5e_Qyuqs1tokPRfPpKLehbLXRXo6PBzvnxdKJiAL3z97c46aVOk-s2yMkT&currency=USD"></script>
+
+
   <script>
     // Product Data
     const productData = {
       "home-appliances": [
-        {
-          "name": "Microwave Oven",
-          "description": "High power microwave oven with touch control.",
-          "price": "150",
-          "image": "https://via.placeholder.com/250x150?text=Microwave"
-        },
-        {
-          "name": "Electric Kettle",
-          "description": "1.5L electric kettle with auto shut-off.",
-          "price": "30",
-          "image": "https://via.placeholder.com/250x150?text=Kettle"
-        },
-        {
-          "name": "Blender",
-          "description": "Smoothie maker blender with multi-speed control.",
-          "price": "60",
-          "image": "https://via.placeholder.com/250x150?text=Blender"
-        }
+        { "name": "Microwave Oven", "description": "High power microwave oven with touch control.", "price": 150, "image": "MICROWAVE.jpg" },
+        { "name": "Electric Kettle", "description": "1.5L electric kettle with auto shut-off.", "price": 30, "image": "kettle.jpg" },
+        { "name": "Blender", "description": "Smoothie maker blender with multi-speed control.", "price": 20, "image": "blender.jpg" }
       ],
       "garments": [
-        {
-          "name": "Cotton T-Shirt",
-          "description": "Comfortable cotton t-shirt for daily wear.",
-          "price": "15",
-          "image": "https://via.placeholder.com/250x150?text=T-Shirt"
-        },
-        {
-          "name": "Jeans",
-          "description": "Slim fit denim jeans with stretch.",
-          "price": "40",
-          "image": "https://via.placeholder.com/250x150?text=Jeans"
-        },
-        {
-          "name": "Jacket",
-          "description": "Windproof winter jacket, waterproof design.",
-          "price": "80",
-          "image": "https://via.placeholder.com/250x150?text=Jacket"
-        }
+        { "name": "Cotton T-Shirt", "description": "Comfortable cotton t-shirt for daily wear.", "price": 5, "image": "Cotton T-Shirt.jpg" },
+        { "name": "Jeans", "description": "Slim fit denim jeans with stretch.", "price": 25, "image": "jean.jpg" },
+        { "name": "Jacket", "description": "Windproof winter jacket, waterproof design.", "price": 30, "image": "jacket.jpg" }
       ]
     };
-function resetView() {
-    document.getElementById('category-title').innerText = 'Welcome to BUY MY GOODS';
-    document.getElementById('welcome-msg').style.display = 'block';
-    document.getElementById('product-list').innerHTML = '';
-  }
+
+    let cart = [];
+
+    function resetView() {
+      document.getElementById('category-title').innerText = 'Welcome to BUY MY GOODS';
+      document.getElementById('welcome-msg').style.display = 'block';
+      document.getElementById('product-list').innerHTML = '';
+      document.getElementById('back-home').style.display = 'none';
+      document.getElementById('cart-page').style.display = 'none';
+    }
+
     function loadCategory(category) {
       const products = productData[category];
       const list = document.getElementById('product-list');
       const title = document.getElementById('category-title');
       const welcome = document.getElementById('welcome-msg');
+      const backButton = document.getElementById('back-home');
 
       title.innerText = category === 'home-appliances' ? 'Home Appliances' : 'Readymade Garments';
       welcome.style.display = 'none';
       list.innerHTML = '';
+      backButton.style.display = 'block';
+      document.getElementById('cart-page').style.display = 'none';
 
       products.forEach(product => {
         const item = document.createElement('div');
         item.className = 'product-item';
         item.innerHTML = `
-          <img src="${product.image}" alt="${product.name}" />
+          <img src="${product.image}" alt="Image of ${product.name}" />
           <h3>${product.name}</h3>
           <p>${product.description}</p>
           <div class="price">$${product.price}</div>
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="YOUR_PAYPAL_djnishantha@proton.me">
-            <input type="hidden" name="item_name" value="${product.name}">
-            <input type="hidden" name="amount" value="${product.price}">
-            <input type="hidden" name="currency_code" value="USD">
-            <input type="submit" value="Buy Now" class="btn">
-          </form>
+          <button class="btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
         `;
         list.appendChild(item);
       });
+    }
+
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      updateCartCount();
+      alert(name + " added to cart!");
+    }
+
+    function updateCartCount() {
+      document.getElementById('cart-count').innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      showCart();
+      updateCartCount();
+    }
+
+    function showCart() {
+      document.getElementById('product-list').innerHTML = "";
+      document.getElementById('welcome-msg').style.display = "none";
+      document.getElementById('cart-page').style.display = "block";
+      document.getElementById('back-home').style.display = "block";
+
+      const body = document.getElementById('cart-body');
+      body.innerHTML = "";
+      let total = 0;
+      cart.forEach((item, idx) => {
+        let sub = item.qty * item.price;
+        total += sub;
+        body.innerHTML += `
+          <tr>
+            <td>${item.name}</td>
+            <td>$${item.price}</td>
+            <td>${item.qty}</td>
+            <td>$${sub}</td>
+            <td><button onclick="removeItem(${idx})">Remove</button></td>
+          </tr>`;
+      });
+      document.getElementById('cart-total').innerText = "Total: $" + total;
+
+      if (total > 0) renderPayPalButton(total);
+      else document.getElementById('paypal-button-container').innerHTML = "";
+    }
+
+    function renderPayPalButton(total) {
+      document.getElementById('paypal-button-container').innerHTML = "";
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              description: "BUY MY GOODS Cart Purchase",
+              amount: { currency_code: "USD", value: total }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert("Payment completed by " + details.payer.name.given_name);
+            cart = [];
+            updateCartCount();
+            resetView();
+          });
+        },
+        onError: function(err) {
+          console.error(err);
+          alert("Payment could not be processed");
+        }
+      }).render('#paypal-button-container');
     }
   </script>
 
