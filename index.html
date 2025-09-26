@@ -1,301 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BUY MY GOODS</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f8f8f8;
-    }
-
-    header {
-      background-color: #333;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-    }
-
+    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background-color: #f8f8f8; }
+    header { background-color: #333; color: white; padding: 20px; text-align: center; }
+    nav a { color: white; margin: 0 10px; text-decoration: none; }
     nav a:hover { text-decoration: underline; }
-
     main { padding: 20px; }
-
     h2 { text-align: center; margin-bottom: 20px; }
-
+    #welcome-msg { text-align: center; margin-top: 20px; font-size: 1.1em; }
     #back-home { text-align: center; margin-bottom: 20px; display: none; }
-
-    .product-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .product-item {
-      background-color: white;
-      padding: 20px;
-      text-align: center;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-    }
-
+    .product-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .product-item { background-color: white; padding: 20px; text-align: center; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
     .product-item:hover { transform: translateY(-5px); }
-
     .product-item img { max-width: 100%; height: auto; border-radius: 8px; }
-
     .product-item h3 { font-size: 1.2em; margin: 10px 0; }
-
     .product-item p { font-size: 0.9em; color: #777; }
-
     .product-item .price { font-size: 1.2em; font-weight: bold; margin: 10px 0; }
-.refresh-btn {
-  background-color: #ff9800;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  margin-left: 10px;
-  font-size: 0.9em;
-}
-
-.refresh-btn:hover {
-  background-color: #e68900;
-}
-    .btn {
-      background-color: #0070ba;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      display: inline-block;
-      text-decoration: none;
-    }
-
+    .btn { background-color: #0070ba; color: white; border: none; padding: 10px 16px; border-radius: 4px; cursor: pointer; display: inline-block; text-decoration: none; }
     .btn:hover { background-color: #003087; }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #333;
-      color: white;
-      margin-top: 40px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-
-    th, td {
-      padding: 10px;
-      text-align: center;
-    }
-    #welcome-msg {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 1.1em;
-}
-
+    footer { text-align: center; padding: 20px; background-color: #333; color: white; margin-top: 40px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    table, th, td { border: 1px solid #ddd; }
+    th, td { padding: 10px; text-align: center; }
+    .refresh-btn { background-color: #ff9800; color: white; padding: 5px 10px; border-radius: 4px; margin-left: 10px; font-size: 0.9em; text-decoration: none; }
+    .refresh-btn:hover { background-color: #e68900; }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>BUY MY GOODS</h1>
-    <nav>
-      <a href="#" onclick="resetView()">Home</a>
-      <a href="#" onclick="loadCategory('home-appliances')">Home Appliances</a>
-      <a href="#" onclick="loadCategory('garments')">Readymade Garments</a>
-      <a href="#" onclick="showCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
-      <a href="#" onclick="clearCart()" class="refresh-btn">🔄 Refresh</a>
+<header>
+  <h1>BUY MY GOODS</h1>
+  <nav>
+    <a href="#" onclick="resetView()">Home</a>
+    <a href="#" onclick="loadCategory('home-appliances')">Home Appliances</a>
+    <a href="#" onclick="loadCategory('garments')">Readymade Garments</a>
+    <a href="#" onclick="showCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
+    <a href="#" onclick="clearCart()" class="refresh-btn">🔄 Refresh</a>
+  </nav>
+</header>
 
-    </nav>
-  </header>
+<main>
+  <h2 id="category-title">Welcome to BUY MY GOODS</h2>
+  <p id="welcome-msg">Click a category above to browse products.</p>
 
-  <main>
-    <h2 id="category-title">Welcome to BUY MY GOODS</h2>
-    <p id="welcome-msg">Click a category above to browse products.</p>
+  <div id="back-home">
+    <button class="btn" onclick="resetView()">← Back to Home</button>
+  </div>
 
-    <!-- Back to Home Button -->
-    <div id="back-home">
-      <button class="btn" onclick="resetView()">← Back to Home</button>
-    </div>
+  <div id="product-list" class="product-list"></div>
 
-    <!-- Product Listing -->
-    <div id="product-list" class="product-list"></div>
+  <div id="cart-page" style="display:none;">
+    <h2>Your Cart</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th>Remove</th>
+        </tr>
+      </thead>
+      <tbody id="cart-body"></tbody>
+    </table>
+    <h3 id="cart-total"></h3>
+    <button id="checkout-button" class="btn">💳 Checkout with Stripe</button>
+  </div>
+</main>
 
-    <!-- Cart Page -->
-    <div id="cart-page" style="display:none;">
-      <h2>Your Cart</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Item</th><th>Price</th><th>Qty</th><th>Subtotal</th><th>Remove</th>
-          </tr>
-        </thead>
-        <tbody id="cart-body"></tbody>
-      </table>
-      <h3 id="cart-total"></h3>
-      <div id="paypal-button-container"></div>
-       </div>
-  </main>
+<footer>
+  <p>© 2025 BUY MY GOODS | All rights reserved</p>
+</footer>
 
-  <footer>
-    <p>© 2025 BUY MY GOODS | All rights reserved</p>
-  </footer>
+<script src="https://js.stripe.com/v3/"></script>
 
-  <!-- Load PayPal SDK -->
-  <script src="https://www.paypal.com/sdk/js?client-id=AXUZYpgdB2oGgzp-3hGfnY5e_Qyuqs1tokPRfPpKLehbLXRXo6PBzvnxdKJiAL3z97c46aVOk-s2yMkT&currency=USD"></script>
+<script>
+const productData = {
+  "home-appliances": [
+    { "name": "Microwave Oven", "description": "High power microwave oven with touch control.", "price": 150, "image": "images/MICROWAVE.jpg" },
+    { "name": "Electric Kettle", "description": "1.5L electric kettle with auto shut-off.", "price": 30, "image": "images/kettle.jpg" },
+    { "name": "Blender", "description": "Smoothie maker blender with multi-speed control.", "price": 20, "image": "images/blender.jpg" }
+  ],
+  "garments": [
+    { "name": "Cotton T-Shirt", "description": "Comfortable cotton t-shirt for daily wear.", "price": 5, "image": "images/Cotton T-Shirt.jpg" },
+    { "name": "Jeans", "description": "Slim fit denim jeans with stretch.", "price": 25, "image": "images/jean.jpg" },
+    { "name": "Jacket", "description": "Windproof winter jacket, waterproof design.", "price": 30, "image": "images/jacket.jpg" }
+  ]
+};
 
-  <script>
-    // Product Data
-    const productData = {
-      "home-appliances": [
-        { "name": "Microwave Oven", "description": "High power microwave oven with touch control.", "price": 150, "image": "MICROWAVE.jpg" },
-        { "name": "Electric Kettle", "description": "1.5L electric kettle with auto shut-off.", "price": 30, "image": "kettle.jpg" },
-        { "name": "Blender", "description": "Smoothie maker blender with multi-speed control.", "price": 20, "image": "blender.jpg" }
-      ],
-      "garments": [
-        { "name": "Cotton T-Shirt", "description": "Comfortable cotton t-shirt for daily wear.", "price": 5, "image": "Cotton T-Shirt.jpg" },
-        { "name": "Jeans", "description": "Slim fit denim jeans with stretch.", "price": 25, "image": "jean.jpg" },
-        { "name": "Jacket", "description": "Windproof winter jacket, waterproof design.", "price": 30, "image": "jacket.jpg" }
-      ]
-    };
+let cart = [];
 
-    let cart = [];
-
-    function resetView() {
-      document.getElementById('category-title').innerText = 'Welcome to BUY MY GOODS';
-      document.getElementById('welcome-msg').style.display = 'block';
-      document.getElementById('product-list').innerHTML = '';
-      document.getElementById('back-home').style.display = 'none';
-      document.getElementById('cart-page').style.display = 'none';
-    }
-
-    function loadCategory(category) {
-      const products = productData[category];
-      const list = document.getElementById('product-list');
-      const title = document.getElementById('category-title');
-      const welcome = document.getElementById('welcome-msg');
-      const backButton = document.getElementById('back-home');
-
-      title.innerText = category === 'home-appliances' ? 'Home Appliances' : 'Readymade Garments';
-      welcome.style.display = 'none';
-      list.innerHTML = '';
-      backButton.style.display = 'block';
-      document.getElementById('cart-page').style.display = 'none';
-
-      products.forEach(product => {
-        const item = document.createElement('div');
-        item.className = 'product-item';
-        item.innerHTML = `
-          <img src="${product.image}" alt="Image of ${product.name}" />
-          <h3>${product.name}</h3>
-          <p>${product.description}</p>
-          <div class="price">$${product.price}</div>
-          <button class="btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
-        `;
-        list.appendChild(item);
-      });
-    }
-
-    function addToCart(name, price) {
-      const existing = cart.find(item => item.name === name);
-      if (existing) {
-        existing.qty++;
-      } else {
-        cart.push({ name, price, qty: 1 });
-      }
-      updateCartCount();
-    }
-
-    function updateCartCount() {
-      const count = cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById('cart-count').innerText = count;
-    }
-
-    function removeItem(index) {
-      cart.splice(index, 1);
-      showCart();
-      updateCartCount();
-    }
-function clearCart() {
-  cart = []; // empty the cart
-  updateCartCount(); // reset cart count to 0
-  showCart(); // refresh the cart view
+function resetView() {
+  document.getElementById('category-title').innerText = 'Welcome to BUY MY GOODS';
+  document.getElementById('welcome-msg').style.display = 'block';
+  document.getElementById('product-list').innerHTML = '';
+  document.getElementById('back-home').style.display = 'none';
+  document.getElementById('cart-page').style.display = 'none';
 }
-    function showCart() {
-      document.getElementById('product-list').innerHTML = "";
-      document.getElementById('welcome-msg').style.display = "none";
-      document.getElementById('cart-page').style.display = "block";
-      document.getElementById('back-home').style.display = "block";
 
-      const body = document.getElementById('cart-body');
-      body.innerHTML = "";
-      let total = 0;
+function loadCategory(category) {
+  const products = productData[category];
+  const list = document.getElementById('product-list');
+  const title = document.getElementById('category-title');
+  const welcome = document.getElementById('welcome-msg');
+  const backButton = document.getElementById('back-home');
 
-      cart.forEach((item, idx) => {
-        const sub = item.qty * item.price;
-        total += sub;
-        body.innerHTML += `
-          <tr>
-            <td>${item.name}</td>
-            <td>$${item.price}</td>
-            <td>${item.qty}</td>
-            <td>$${sub}</td>
-            <td><button class="btn" onclick="removeItem(${idx})">Remove</button></td>
-          </tr>`;
-      });
+  title.innerText = category === 'home-appliances' ? 'Home Appliances' : 'Readymade Garments';
+  welcome.style.display = 'none';
+  list.innerHTML = '';
+  backButton.style.display = 'block';
+  document.getElementById('cart-page').style.display = 'none';
 
-      document.getElementById('cart-total').innerText = "Total: $" + total.toFixed(2);
+  products.forEach(product => {
+    const item = document.createElement('div');
+    item.className = 'product-item';
+    item.innerHTML = `
+      <img src="${product.image}" alt="Image of ${product.name}" />
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <div class="price">$${product.price}</div>
+      <button class="btn" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+    `;
+    list.appendChild(item);
+  });
+}
 
-      if (total > 0) renderPayPalButton(total);
-      else document.getElementById('paypal-button-container').innerHTML = "";
-    }
+function addToCart(name, price) {
+  const existing = cart.find(item => item.name === name);
+  if (existing) existing.qty++;
+  else cart.push({ name, price, qty: 1 });
+  updateCartCount();
+}
 
-    function renderPayPalButton(total) {
-      document.getElementById('paypal-button-container').innerHTML = "";
-      paypal.Buttons({
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              description: "BUY MY GOODS Cart Purchase",
-              amount: { currency_code: "USD", value: total.toFixed(2) }
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert("✅ Payment completed by " + details.payer.name.given_name + "!");
-            cart = [];
-            updateCartCount();
-            resetView();
-          });
-        },
-        onError: function(err) {
-          console.error(err);
-          alert("❌ Payment could not be processed.");
-        }
-      }).render('#paypal-button-container');
-    }
-  </script>
+function updateCartCount() {
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('cart-count').innerText = count;
+}
 
+function removeItem(index) {
+  cart.splice(index, 1);
+  showCart();
+  updateCartCount();
+}
+
+function showCart() {
+  document.getElementById('product-list').innerHTML = "";
+  document.getElementById('welcome-msg').style.display = "none";
+  document.getElementById('cart-page').style.display = "block";
+  document.getElementById('back-home').style.display = "block";
+
+  const body = document.getElementById('cart-body');
+  body.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item, idx) => {
+    const sub = item.qty * item.price;
+    total += sub;
+    body.innerHTML += `
+      <tr>
+        <td>${item.name}</td>
+        <td>$${item.price}</td>
+        <td>${item.qty}</td>
+        <td>$${sub}</td>
+        <td><button class="btn" onclick="removeItem(${idx})">Remove</button></td>
+      </tr>`;
+  });
+
+  document.getElementById('cart-total').innerText = "Total: $" + total.toFixed(2);
+}
+
+function clearCart() {
+  cart = [];
+  updateCartCount();
+  showCart();
+}
+
+// Stripe Checkout
+const stripe = Stripe("YOUR_PUBLISHABLE_KEY_HERE"); // replace with your Stripe publishable key
+document.getElementById("checkout-button").addEventListener("click", () => {
+  if(cart.length === 0) { alert("Cart is empty!"); return; }
+
+  fetch("/create-checkout-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cart })
+  })
+  .then(res => res.json())
+  .then(data => stripe.redirectToCheckout({ sessionId: data.sessionId }))
+  .catch(err => console.error("Stripe error:", err));
+});
+</script>
 </body>
 </html>
