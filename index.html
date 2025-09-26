@@ -60,7 +60,18 @@
     .product-item p { font-size: 0.9em; color: #777; }
 
     .product-item .price { font-size: 1.2em; font-weight: bold; margin: 10px 0; }
+.refresh-btn {
+  background-color: #ff9800;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-left: 10px;
+  font-size: 0.9em;
+}
 
+.refresh-btn:hover {
+  background-color: #e68900;
+}
     .btn {
       background-color: #0070ba;
       color: white;
@@ -107,6 +118,8 @@
       <a href="#" onclick="loadCategory('home-appliances')">Home Appliances</a>
       <a href="#" onclick="loadCategory('garments')">Readymade Garments</a>
       <a href="#" onclick="showCart()">🛒 Cart (<span id="cart-count">0</span>)</a>
+      <a href="#" onclick="clearCart()" class="refresh-btn">🔄 Refresh</a>
+
     </nav>
   </header>
 
@@ -135,8 +148,7 @@
       </table>
       <h3 id="cart-total"></h3>
       <div id="paypal-button-container"></div>
-       <button class="btn" onclick="clearCart()">🔄 Refresh Cart</button>
-    </div>
+       </div>
   </main>
 
   <footer>
