@@ -135,6 +135,7 @@
       </table>
       <h3 id="cart-total"></h3>
       <div id="paypal-button-container"></div>
+       <button class="btn" onclick="clearCart()">🔄 Refresh Cart</button>
     </div>
   </main>
 
@@ -217,7 +218,11 @@
       showCart();
       updateCartCount();
     }
-
+function clearCart() {
+  cart = []; // empty the cart
+  updateCartCount(); // reset cart count to 0
+  showCart(); // refresh the cart view
+}
     function showCart() {
       document.getElementById('product-list').innerHTML = "";
       document.getElementById('welcome-msg').style.display = "none";
