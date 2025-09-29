@@ -175,9 +175,9 @@ function clearCart() {
   showCart();
 }
 
-// Stripe Checkout - wrapped in DOMContentLoaded to ensure elements exist
+// Stripe Checkout
 document.addEventListener("DOMContentLoaded", () => {
-  const stripe = Stripe("pk_test_51S54lkAUcFfJkzdROLBPj76i7Cmk3WV4eBHDUNnVqYK0FsMNaqUKp0PKdJLuG6qAKjOqFxM4T3DOvDxVbqO6IPoA00knTOSCsZ"); // Your Stripe publishable key
+  const stripe = Stripe("pk_test_51S54lkAUcFfJkzdROLBPj76i7Cmk3WV4eBHDUNnVqYK0FsMNaqUKp0PKdJLuG6qAKjOqFxM4T3DOvDxVbqO6IPoA00knTOSCsZ"); // publishable key
 
   document.getElementById("checkout-button").addEventListener("click", () => {
     if(cart.length === 0) { 
@@ -185,12 +185,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return; 
     }
 
-    fetch("https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev/create-checkout-session", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ cart })
-})
-
+    fetch("/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart })
+    })
     .then(res => res.json())
     .then(data => {
       if (data.error) {
