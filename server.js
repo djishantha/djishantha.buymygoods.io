@@ -1,8 +1,11 @@
 import express from "express";
 import Stripe from "stripe";
+import cors from "cors";
 
 const app = express();
-const stripe = new Stripe("YOUR_SECRET_KEY_HERE"); // replace with real secret key from Stripe dashboard
+const stripe = new Stripe("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"); // ✅ Replace this with your real Stripe secret key
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -26,3 +29,4 @@ app.post("/create-checkout-session", async (req, res) => {
 });
 
 app.listen(3000, () => console.log("✅ Server running on http://localhost:3000"));
+
