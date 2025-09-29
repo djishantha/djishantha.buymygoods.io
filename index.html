@@ -178,7 +178,7 @@ function clearCart() {
 }
 
 // Stripe Checkout
-const stripe = Stripe("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"); // replace with your Stripe publishable key
+const stripe = Stripe("pk_test_51S54lkAUcFfJkzdROLBPj76i7Cmk3WV4eBHDUNnVqYK0FsMNaqUKp0PKdJLuG6qAKjOqFxM4T3DOvDxVbqO6IPoA00knTOSCsZ"); // replace with your Stripe publishable key
 document.getElementById("checkout-button").addEventListener("click", () => {
   if(cart.length === 0) { alert("Cart is empty!"); return; }
 
