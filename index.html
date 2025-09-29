@@ -226,46 +226,81 @@ function saveCartToStorage() {
 updateCartCount();
 
 // Checkout functionality
+// Checkout functionality - IMPROVED VERSION
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("checkout-button").addEventListener("click", async () => {
-    if (cart.length === 0) { 
-      alert("Your cart is empty! Add some products first."); 
-      return; 
-    }
-
-    try {
-      console.log("Starting checkout process...");
-      
-      const response = await fetch("/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cart })
-      });
-
-      const data = await response.json();
-      console.log("Server response:", data);
-
-      if (!response.ok) {
-        throw new Error(data.error || `Server error: ${response.status}`);
+  const checkoutButton = document.getElementById("checkout-button");
+  
+  if (checkoutButton) {
+    checkoutButton.addEventListener("click", async () => {
+      if (cart.length === 0) { 
+        alert("Your cart is empty! Add some products first."); 
+        return; 
       }
 
-      if (data.error) {
-        alert("Error: " + data.error);
-        return;
-      }
+      // Show loading state
+      checkoutButton.disabled = true;
+      checkoutButton.textContent = "Processing...";
 
-      console.log("Redirecting to Stripe checkout...");
-      const result = await stripe.redirectToCheckout({ sessionId: data.sessionId });
-      
-      if (result.error) {
-        console.error("Stripe redirect error:", result.error);
-        alert("Checkout error: " + result.error.message);
+      try {
+        console.log("Starting checkout process...");
+        console.log("Cart contents:", cart);
+        
+        const response = await fetch("/create-checkout-session", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({ cart })
+        });
+
+        console.log("Response status:", response.status);
+        console.log("Response headers:", response.headers);
+        
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          const text = await response.text();
+          console.error("Non-JSON response:", text.substring(0, 200));
+          throw new Error(`Server returned HTML instead of JSON. Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Server response data:", data);
+
+        if (!response.ok) {
+          throw new Error(data.error || `Server error: ${response.status}`);
+        }
+
+        if (data.error) {
+          throw new Error("Server error: " + data.error);
+        }
+
+        if (!data.sessionId) {
+          throw new Error("No session ID received from server");
+        }
+
+        console.log("Redirecting to Stripe checkout with session:", data.sessionId);
+        
+        // Redirect to Stripe Checkout
+        const result = await stripe.redirectToCheckout({
+          sessionId: data.sessionId
+        });
+
+        if (result.error) {
+          throw new Error(result.error.message);
+        }
+
+      } catch (err) {
+        console.error("Checkout error:", err);
+        alert("Checkout failed: " + err.message);
+        
+        // Reset button
+        checkoutButton.disabled = false;
+        checkoutButton.textContent = "💳 Checkout with Stripe";
       }
-    } catch (err) {
-      console.error("Checkout error:", err);
-      alert("Failed to process checkout: " + err.message);
-    }
-  });
+    });
+  }
 });
 </script>
 </body>
