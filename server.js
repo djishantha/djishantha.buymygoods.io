@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import cors from "cors";
 
 const app = express();
-const stripe = new Stripe("pk_test_51S54lkAUcFfJkzdROLBPj76i7Cmk3WV4eBHDUNnVqYK0FsMNaqUKp0PKdJLuG6qAKjOqFxM4T3DOvDxVbqO6IPoA00knTOSCsZ"); // Replace with test key
+const stripe = new Stripe("sk_test_51S54lkAUcFfJkzdRvS0aggYwprMHbiatiTOWmlSeKEmrUQ8LjYyYVyt00pRIUD5iYrnwRFUsFFVK7EHXL90mmf1n00lUVn4kSX"); // Replace with test key
 
 app.use(cors());
 app.use(express.json());
@@ -38,4 +38,5 @@ app.post("/create-checkout-session", async (req, res) => {
 app.listen(3000, '0.0.0.0', () => {
   console.log(`✅ Server running on http://localhost:3000`);
 });
+
 
