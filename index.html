@@ -177,21 +177,36 @@ function clearCart() {
   showCart();
 }
 
-// Stripe Checkout
-const stripe = Stripe("pk_test_51S54lkAUcFfJkzdROLBPj76i7Cmk3WV4eBHDUNnVqYK0FsMNaqUKp0PKdJLuG6qAKjOqFxM4T3DOvDxVbqO6IPoA00knTOSCsZ"); // replace with your Stripe publishable key
-document.getElementById("checkout-button").addEventListener("click", () => {
-  if(cart.length === 0) { alert("Cart is empty!"); return; }
+// Stripe Checkout - wrapped in DOMContentLoaded to ensure elements exist
+document.addEventListener("DOMContentLoaded", () => {
+  const stripe = Stripe("pk_test_51S54lkAUcFfJkzdROLBPj76i7Cmk3WV4eBHDUNnVqYK0FsMNaqUKp0PKdJLuG6qAKjOqFxM4T3DOvDxVbqO6IPoA00knTOSCsZ"); // Your Stripe publishable key
 
- fetch("https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev/create-checkout-session", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ cart })
-})
-.then(res => res.json())
-.then(data => stripe.redirectToCheckout({ sessionId: data.sessionId }))
-.catch(err => console.error("Checkout error:", err));
+  document.getElementById("checkout-button").addEventListener("click", () => {
+    if(cart.length === 0) { 
+      alert("Cart is empty!"); 
+      return; 
+    }
 
+    fetch("https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev/create-checkout-session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cart })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        alert("Error: " + data.error);
+        return;
+      }
+      return stripe.redirectToCheckout({ sessionId: data.sessionId });
+    })
+    .catch(err => {
+      console.error("Checkout error:", err);
+      alert("Failed to redirect to checkout.");
+    });
+  });
 });
 </script>
+
 </body>
 </html>
