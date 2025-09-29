@@ -2,16 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Cancelled</title>
   <style>
-    body { text-align: center; font-family: sans-serif; padding: 50px; background: #ffe6e6; color: #c62828; }
-    a { display: inline-block; margin-top: 20px; text-decoration: none; color: #c62828; font-weight: bold; }
+    body { 
+      text-align: center; 
+      font-family: Arial, sans-serif; 
+      padding: 50px; 
+      background: #ffebee; 
+      color: #c62828; 
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 { 
+      color: #c62828; 
+      margin-bottom: 20px;
+      font-size: 2.5em;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .btn { 
+      display: inline-block; 
+      background-color: #c62828;
+      color: white; 
+      padding: 12px 30px; 
+      text-decoration: none; 
+      border-radius: 5px; 
+      font-weight: bold; 
+      font-size: 1.1em;
+      transition: background-color 0.3s;
+    }
+    .btn:hover { 
+      background-color: #b71c1c; 
+    }
+    .cancel-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1>❌ Payment Cancelled</h1>
-  <p>Your payment was not completed.</p>
-  <a href="index.html">← Back to Shop</a>
+  <div class="container">
+    <div class="cancel-icon">❌</div>
+    <h1>Payment Cancelled</h1>
+    <p>Your payment was not completed. You can try again or continue shopping.</p>
+    <p>Your cart items have been saved.</p>
+    <a href="index.html" class="btn">← Back to Shop</a>
+  </div>
 </body>
 </html>
-
