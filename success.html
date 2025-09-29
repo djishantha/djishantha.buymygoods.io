@@ -2,15 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Payment Successful</title>
   <style>
-    body { text-align: center; font-family: sans-serif; padding: 50px; background: #e6ffe6; color: #2e7d32; }
-    a { display: inline-block; margin-top: 20px; text-decoration: none; color: #2e7d32; font-weight: bold; }
+    body { 
+      text-align: center; 
+      font-family: Arial, sans-serif; 
+      padding: 50px; 
+      background: #e8f5e8; 
+      color: #2e7d32; 
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h1 { 
+      color: #2e7d32; 
+      margin-bottom: 20px;
+      font-size: 2.5em;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .btn { 
+      display: inline-block; 
+      background-color: #2e7d32;
+      color: white; 
+      padding: 12px 30px; 
+      text-decoration: none; 
+      border-radius: 5px; 
+      font-weight: bold; 
+      font-size: 1.1em;
+      transition: background-color 0.3s;
+    }
+    .btn:hover { 
+      background-color: #1b5e20; 
+    }
+    .success-icon {
+      font-size: 4em;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
-  <h1>✅ Payment Successful!</h1>
-  <p>Thank you for your purchase.</p>
-  <a href="index.html">← Back to Shop</a>
+  <div class="container">
+    <div class="success-icon">✅</div>
+    <h1>Payment Successful!</h1>
+    <p>Thank you for your purchase. Your order has been confirmed and will be processed shortly.</p>
+    <p>You will receive an email confirmation shortly.</p>
+    <a href="index.html" class="btn">← Back to Shop</a>
+  </div>
+  
+  <script>
+    // Clear cart on successful payment
+    localStorage.removeItem('cart');
+  </script>
 </body>
 </html>
