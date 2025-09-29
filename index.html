@@ -186,10 +186,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     fetch("https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev/create-checkout-session", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cart })
-    })
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ cart })
+})
+
     .then(res => res.json())
     .then(data => {
       if (data.error) {
