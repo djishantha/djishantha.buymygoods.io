@@ -182,11 +182,12 @@ const stripe = Stripe("YOUR_PUBLISHABLE_KEY_HERE"); // replace with your Stripe 
 document.getElementById("checkout-button").addEventListener("click", () => {
   if(cart.length === 0) { alert("Cart is empty!"); return; }
 
-  fetch("/create-checkout-session", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cart })
-  })
+  fetch("https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev/create-checkout-session", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ cart })
+})
+
   .then(res => res.json())
   .then(data => stripe.redirectToCheckout({ sessionId: data.sessionId }))
   .catch(err => console.error("Stripe error:", err));
