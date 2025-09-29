@@ -2,34 +2,45 @@ import express from "express";
 import Stripe from "stripe";
 import cors from "cors";
 import path from "path";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from 'url';
 
-const app = express();
-const stripe = new Stripe("sk_test_51S54lkAUcFfJkzdRvS0aggYwprMHbiatiTOWmlSeKEmrUQ8LjYyYVyt00pRIUD5iYrnwRFUsFFVK7EHXL90mmf1n00lUVn4kSX"); // your test secret key
-
-// Middleware
-app.use(cors());
-app.use(express.json());
-
-// Static files (frontend)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, "public")));
 
-// Codespaces URL (update if needed)
-const BASE_URL = "https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev";
+const app = express();
+const stripe = new Stripe("sk_test_51S54lkAUcFfJkzdRvS0aggYwprMHbiatiTOWmlSeKEmrUQ8LjYyYVyt00pRIUD5iYrnwRFUsFFVK7EHXL90mmf1n00lUVn4kSX");
 
-// Stripe checkout session
+// CORS configuration
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
+app.use(express.json());
+app.use(express.static(__dirname));
+
+// Dynamic base URL for GitHub Codespaces
+const BASE_URL = process.env.CODESPACES ? 
+  `https://${process.env.CODESPACE_NAME}-3000.app.github.dev` : 
+  "http://localhost:3000";
+
+console.log("Base URL:", BASE_URL);
+
 app.post("/create-checkout-session", async (req, res) => {
   try {
+    console.log("Creating checkout session for:", req.body.cart);
+    
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
       line_items: req.body.cart.map(item => ({
         price_data: {
           currency: "usd",
-          product_data: { name: item.name },
-          unit_amount: item.price * 100,
+          product_data: { 
+            name: item.name,
+            description: item.description || `Product: ${item.name}`
+          },
+          unit_amount: Math.round(item.price * 100), // Convert to cents
         },
         quantity: item.qty,
       })),
@@ -37,6 +48,7 @@ app.post("/create-checkout-session", async (req, res) => {
       cancel_url: `${BASE_URL}/cancel.html`,
     });
 
+    console.log("Stripe session created:", session.id);
     res.json({ sessionId: session.id });
   } catch (err) {
     console.error("Stripe Error:", err);
@@ -44,7 +56,13 @@ app.post("/create-checkout-session", async (req, res) => {
   }
 });
 
-// Start server
-app.listen(3000, "0.0.0.0", () => {
-  console.log(`✅ Server running at ${BASE_URL}`);
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({ status: "OK", message: "Server is running" });
+});
+
+app.listen(3000, '0.0.0.0', () => {
+  console.log(`✅ Server running on ${BASE_URL}`);
+  console.log(`✅ Health check: ${BASE_URL}/health`);
+  console.log(`✅ Store: ${BASE_URL}/index.html`);
 });
