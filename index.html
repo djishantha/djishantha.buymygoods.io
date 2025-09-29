@@ -182,15 +182,15 @@ const stripe = Stripe("sk_live_51S54lkAUcFfJkzdR26Uh81AysqwpAJ7cIAbnAwrF2RRcirsx
 document.getElementById("checkout-button").addEventListener("click", () => {
   if(cart.length === 0) { alert("Cart is empty!"); return; }
 
-  fetch("https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev/create-checkout-session", {
+ fetch("https://curly-computing-machine-q7g4x6xrvqj5h45qr-3000.app.github.dev/create-checkout-session", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ cart })
 })
+.then(res => res.json())
+.then(data => stripe.redirectToCheckout({ sessionId: data.sessionId }))
+.catch(err => console.error("Checkout error:", err));
 
-  .then(res => res.json())
-  .then(data => stripe.redirectToCheckout({ sessionId: data.sessionId }))
-  .catch(err => console.error("Stripe error:", err));
 });
 </script>
 </body>
