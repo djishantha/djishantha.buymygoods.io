@@ -10,13 +10,15 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const stripe = new Stripe("sk_test_51S54lkAUcFfJkzdRvS0aggYwprMHbiatiTOWmlSeKEmrUQ8LjYyYVyt00pRIUD5iYrnwRFUsFFVK7EHXL90mmf1n00lUVn4kSX");
 
-// CORS configuration
+// CORS configuration - MUST come before static files
 app.use(cors({
   origin: true,
   credentials: true
 }));
 
 app.use(express.json());
+
+// Serve static files - MUST come after CORS and JSON
 app.use(express.static(__dirname));
 
 // Dynamic base URL for GitHub Codespaces
@@ -26,9 +28,14 @@ const BASE_URL = process.env.CODESPACES ?
 
 console.log("Base URL:", BASE_URL);
 
+// API Routes - MUST come before static file handling
 app.post("/create-checkout-session", async (req, res) => {
   try {
     console.log("Creating checkout session for:", req.body.cart);
+    
+    if (!req.body.cart || !Array.isArray(req.body.cart)) {
+      return res.status(400).json({ error: "Invalid cart data" });
+    }
     
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -61,8 +68,19 @@ app.get("/health", (req, res) => {
   res.json({ status: "OK", message: "Server is running" });
 });
 
+// Test Stripe endpoint
+app.get("/test-stripe", (req, res) => {
+  res.json({ message: "Stripe endpoint is accessible", timestamp: new Date().toISOString() });
+});
+
+// Catch-all handler for SPA - MUST be last
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.listen(3000, '0.0.0.0', () => {
   console.log(`✅ Server running on ${BASE_URL}`);
   console.log(`✅ Health check: ${BASE_URL}/health`);
+  console.log(`✅ Test endpoint: ${BASE_URL}/test-stripe`);
   console.log(`✅ Store: ${BASE_URL}/index.html`);
 });
