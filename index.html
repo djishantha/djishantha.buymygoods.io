@@ -244,16 +244,15 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         console.log("Starting checkout process...");
         console.log("Cart contents:", cart);
-        
-        const response = await fetch("/create-checkout-session", {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({ cart })
-        });
-
+        const BASE_URL = window.location.origin;
+       const response = await fetch(`${BASE_URL}/create-checkout-session`, {
+  method: "POST",
+  headers: { 
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+  },
+  body: JSON.stringify({ cart })
+});
         console.log("Response status:", response.status);
         console.log("Response headers:", response.headers);
         
