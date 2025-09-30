@@ -27,7 +27,9 @@ const BASE_URL = process.env.CODESPACES ?
   "http://localhost:3000";
 
 console.log("Base URL:", BASE_URL);
-
+app.get("/create-checkout-session", (req, res) => {
+  res.status(405).json({ error: "Use POST method for this endpoint." });
+});
 // API Routes - MUST come before static file handling
 app.post("/create-checkout-session", async (req, res) => {
   try {
